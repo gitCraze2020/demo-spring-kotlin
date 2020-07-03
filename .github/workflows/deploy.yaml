@@ -10,6 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
+      # download file, run through util base64, set stdout result as secret key
       - name: Authenticate to GCP
         uses: actions/gcloud/auth@master
         env:
