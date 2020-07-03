@@ -24,18 +24,18 @@ jobs:
         uses: actions/setup/java@v1
         with:
           java-version: '1.8'
-      - run: ./mvnw compile jib:dockerBuild -Djib.to.image-gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}
+      - run: ./mvnw compile jib:dockerBuild -Djib.to.image-gcr.io/${{ secrets.GCP_PROJECT }}/demo-spring-kotlin:${{ github.sha }}
 
       - name: Push image to GCR
         uses: actions/gcloud/cli@master
         with:
           entrypoint: sh
-          args: -c "docker push gcr.io/${{ secrets.GCP_PROJECT }}/hello-slp:${{ github.sha }}
+          args: -c "docker push gcr.io/${{ secrets.GCP_PROJECT }}/demo-spring-kotlin:${{ github.sha }}
 
       - name: Prepare service manifest
         env:
           PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-          APP_NAME: hello-slp
+          APP_NAME: demo-spring-kotlin
         run: envsubst < .github/template.yaml > .github/service.yaml
 
       - name: Install kubectl and deploy services
