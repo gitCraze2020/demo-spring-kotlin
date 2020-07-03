@@ -34,7 +34,7 @@ jobs:
 
       - name: Prepare service manifest
         env:
-          PROJECT_ID: ${{ secrets/GCP_PROJECT }}
+          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
           APP_NAME: hello-slp
         run: envsubst < .github/template.yaml > .github/service.yaml
 
