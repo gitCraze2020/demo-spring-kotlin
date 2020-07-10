@@ -13,8 +13,8 @@ name: Build and Deploy to GKE
 on:
   push:
     branches: [ master ]
-#  release:
-#    types: [created]
+  release:
+    types: [created]
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -47,7 +47,7 @@ jobs:
     - run: |
         # Set up docker to authenticate
         # via gcloud command-line tool.
-        gcloud auth configure-docker
+        gcloud auth configure-docker "$REGISTRY_HOSTNAME"
       
     # Build the Docker image
     - name: Build
