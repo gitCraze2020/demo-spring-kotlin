@@ -9,10 +9,10 @@ env:
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: us-east1-c
   GKE_CLUSTER: cw-cl-demo-spring-kotlin
-  IMAGE: demo-kotlin
+  IMAGE: demo-spring-kotlin
   REGISTRY_HOSTNAME: gcr.io
-  DEPLOYMENT_NAME: demo-kotlin
-  
+  DEPLOYMENT_NAME: demo-spring-kotlin
+
 jobs:
   deploy:
     name: Build and deploy
