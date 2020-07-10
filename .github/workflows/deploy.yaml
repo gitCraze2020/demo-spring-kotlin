@@ -50,7 +50,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '1.8'
-      - run: ./mvnw compile jib:dockerBuild -Djib.to.image-gcr.io/${{ secrets.GCP_PROJECT }}/$IMAGE:${{ github.sha }}
+      - run: ./mvnw compile jib:dockerBuild -Djib.to.image-gcr.io/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
 #      - name: Push image to GCR
 #        uses: actions/gcloud/cli@master
