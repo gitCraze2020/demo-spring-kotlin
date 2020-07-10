@@ -11,6 +11,7 @@
 name: Build and Deploy to GKE
 
 on:
+  [push]
   release:
     types: [created]
 
