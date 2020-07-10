@@ -54,7 +54,7 @@ jobs:
 
       - name: Push image to GCR
 #        uses: actions/gcloud/cli@master
-         uses: actions-hub/gcloud@master
+        uses: actions-hub/gcloud@master
         with:
           entrypoint: sh
           args: -c "docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
