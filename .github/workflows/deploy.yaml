@@ -21,19 +21,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
-      # download file, run through util base64, set stdout result as secret key
-      - name: Authenticate to GCP
-#        uses: actions/gcloud/auth@master
-        uses: actions-hub/gcloud@master
-        env:
-          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
+#      # download file, run through util base64, set stdout result as secret key
+#      - name: Authenticate to GCP
+##        uses: actions/gcloud/auth@master
+#        uses: actions-hub/gcloud@master
+#        env:
+#          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
 
       # Setup gcloud CLI
-#      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-#        with:
-#          version: '270.0.0'
-#          service_account_email: ${{ secrets.GKE_EMAIL }}
-#          service_account_key: ${{ secrets.GKE_KEY }}
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '270.0.0'
+          service_account_email: ${{ secrets.GKE_EMAIL }}
+          service_account_key: ${{ secrets.GKE_KEY }}
 
 
       - name: Configure Docker for GCR
