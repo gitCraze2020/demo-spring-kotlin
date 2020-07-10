@@ -11,15 +11,29 @@ jobs:
         uses: actions/checkout@master
 
       # download file, run through util base64, set stdout result as secret key
-      - name: Authenticate to GCP
-        uses: actions/gcloud/auth@master
-        env:
-          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
+#      - name: Authenticate to GCP
+#        uses: actions/gcloud/auth@master
+#        env:
+#          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Configure Docker for GCR
-        uses: actions/gcloud/cli@master
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          args: "auth configure-docker --quiet"
+          version: '270.0.0'
+          service_account_email: ${{ secrets.GKE_EMAIL }}
+          service_account_key: ${{ secrets.GKE_KEY }}
+
+
+#      - name: Configure Docker for GCR
+#        uses: actions/gcloud/cli@master
+#        with:
+#          args: "auth configure-docker --quiet"
+
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - run: |
+          # Set up docker to authenticate
+          # via gcloud command-line tool.
+          gcloud auth configure-docker
 
       - name: Build image
         uses: actions/setup-java@v1
