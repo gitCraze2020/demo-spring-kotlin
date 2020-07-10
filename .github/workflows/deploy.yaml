@@ -50,18 +50,19 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '1.8'
-      - run: ./mvnw compile jib:dockerBuild -Djib.to.image-gcr.io/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+      - run: ./mvnw compile jib:dockerBuild -Djib.to.image-$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
-#      - name: Push image to GCR
+      - name: Push image to GCR
 #        uses: actions/gcloud/cli@master
-#        with:
-#          entrypoint: sh
-#          args: -c "docker push gcr.io/${{ secrets.GCP_PROJECT }}/demo-spring-kotlin:${{ github.sha }}
+         uses: actions-hub/gcloud@master
+        with:
+          entrypoint: sh
+          args: -c "docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
       # Push the Docker image to Google Container Registry
-      - name: Publish
-        run: |
-          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+#      - name: Publish
+#        run: |
+#          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
       - name: Prepare service manifest
         env:
