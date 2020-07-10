@@ -2,6 +2,17 @@ name: Deploy
 
 on: [push]
 
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GITHUB_SHA: ${{ github.sha }}
+  GKE_ZONE: us-east1-c
+  GKE_CLUSTER: cw-cl-demo-spring-kotlin
+  IMAGE: demo-kotlin
+  REGISTRY_HOSTNAME: gcr.io
+  DEPLOYMENT_NAME: demo-kotlin
+  
 jobs:
   deploy:
     name: Build and deploy
