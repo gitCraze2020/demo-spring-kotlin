@@ -22,29 +22,31 @@ jobs:
         uses: actions/checkout@master
 
       # download file, run through util base64, set stdout result as secret key
-#      - name: Authenticate to GCP
+      - name: Authenticate to GCP
 #        uses: actions/gcloud/auth@master
-#        env:
-#          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
+        uses: actions-hub/gcloud@master
+        env:
+          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
 
       # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '270.0.0'
-          service_account_email: ${{ secrets.GKE_EMAIL }}
-          service_account_key: ${{ secrets.GKE_KEY }}
-
-
-#      - name: Configure Docker for GCR
-#        uses: actions/gcloud/cli@master
+#      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
 #        with:
-#          args: "auth configure-docker --quiet"
+#          version: '270.0.0'
+#          service_account_email: ${{ secrets.GKE_EMAIL }}
+#          service_account_key: ${{ secrets.GKE_KEY }}
 
-      # Configure docker to use the gcloud command-line tool as a credential helper
-      - run: |
-          # Set up docker to authenticate
-          # via gcloud command-line tool.
-          gcloud auth configure-docker
+
+      - name: Configure Docker for GCR
+#        uses: actions/gcloud/cli@master
+        uses: actions-hub/gcloud@master
+        with:
+          args: "auth configure-docker --quiet"
+
+#      # Configure docker to use the gcloud command-line tool as a credential helper
+#      - run: |
+#          # Set up docker to authenticate
+#          # via gcloud command-line tool.
+#          gcloud auth configure-docker
 
       - name: Build image
         uses: actions/setup-java@v1
@@ -64,22 +66,23 @@ jobs:
 #        run: |
 #          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
-      - name: Prepare service manifest
-        env:
-          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-          APP_NAME: demo-spring-kotlin
-        run: envsubst < .github/template.yaml > .github/service.yaml
+#      - name: Prepare service manifest
+#        env:
+#          PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+#          APP_NAME: demo-spring-kotlin
+#        run: envsubst < .github/template.yaml > .github/service.yaml
 
-#      - name: Install kubectl and deploy services
+      - name: Install kubectl and deploy services
 #        uses: actions/gcloud/cli@master
-#        with:
-#          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
+        uses: actions-hub/gcloud@master
+        with:
+          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
-      # Deploy the Docker image to the GKE cluster
-      - name: Deploy
-        run: |
-          gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-          ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
-          ./kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/$DEPLOYMENT_NAME
-          kubectl get services -o wide
+#      # Deploy the Docker image to the GKE cluster
+#      - name: Deploy
+#        run: |
+#          gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+#          ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+#          ./kustomize build . | kubectl apply -f -
+#          kubectl rollout status deployment/$DEPLOYMENT_NAME
+#          kubectl get services -o wide
