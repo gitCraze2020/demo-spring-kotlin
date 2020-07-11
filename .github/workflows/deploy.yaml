@@ -135,7 +135,7 @@ jobs:
 
       - name: kubectl api-versions
         run: |
-          kubectl api-versions
+          kubectl api-resources
 
       - name: show local path yaml
         run: |
