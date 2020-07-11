@@ -81,8 +81,11 @@ jobs:
 #          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
       - name: Install kubectl and deploy services (1)
-        ##        uses: actions/gcloud/cli@master
-        run: gcloud config set container/use_client_certificate True
+          ##        uses: actions/gcloud/cli@master
+          run: gcloud config set container/use_client_certificate True
+
+      - name: get-credentials
+          run: gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
