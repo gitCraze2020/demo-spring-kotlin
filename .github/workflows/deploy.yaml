@@ -84,8 +84,12 @@ jobs:
           ##        uses: actions/gcloud/cli@master
         run: gcloud config set container/use_client_certificate True
 
-      - name: get-credentials
-        run: gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+      - name: Setup gcloud CLI again
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '270.0.0'
+          service_account_email: ${{ secrets.GKE_EMAIL }}
+          service_account_key: ${{ secrets.GKE_KEY }}
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
