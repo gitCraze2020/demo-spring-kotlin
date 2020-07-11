@@ -120,6 +120,11 @@ jobs:
         run: |
           gcloud components install kubectl --quiet
 
+      - name: Install kubectl and deploy services (2)
+        run: |
+          gcloud components install kubectl --quiet
+          kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}
+
 #      - name: Install kubectl and deploy services (2)
 #        ##        uses: actions/gcloud/cli@master
 #        uses: actions-hub/gcloud@master
