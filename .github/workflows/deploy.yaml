@@ -145,10 +145,11 @@ jobs:
         run: |
           gcloud components install kubectl --quiet
 
-      - name: kubectl config info
+      - name: kubectl set context
         continue-on-error: true
         run: |
           gcloud config set container/use_client_certificate True
+          kubectl config set-context --current --namespace=${{ secrets.CLUSTER_NS }}
           kubectl config view
 
       - name: kubectl ns
