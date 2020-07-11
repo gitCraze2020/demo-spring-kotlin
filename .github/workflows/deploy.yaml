@@ -119,6 +119,28 @@ jobs:
       - name: read some folders and vars (8)
         run: cat $GOOGLE_APPLICATION_CREDENTIALS
 
+      - name: actions-hub (1)
+        ##        uses: actions/gcloud/cli@master
+        uses: actions-hub/gcloud@master
+        with:
+          args: 'echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS'
+
+      - name: actions-hub (2)
+        ##        uses: actions/gcloud/cli@master
+        uses: actions-hub/gcloud@master
+        with:
+          args: 'ls -la'
+
+      - name: actions (1)
+        uses: actions/gcloud/cli@master
+        with:
+          args: 'echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS'
+
+      - name: actions (2)
+        uses: actions/gcloud/cli@master
+        with:
+          args: 'ls -la'
+
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
         uses: actions-hub/gcloud@master
