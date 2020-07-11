@@ -132,6 +132,11 @@ jobs:
         run: |
           cat .github/service.yaml
 
+      - name: gcloud components update 1
+        continue-on-error: true
+        run: |
+          gcloud components update
+
       - name: Install kubectl and deploy services (1)
         continue-on-error: true
         run: |
@@ -175,7 +180,18 @@ jobs:
           gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
           kubectl get namespaces
 
-      - name: kubectl version
+      - name: kubectl version (1)
+        continue-on-error: true
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
+          kubectl version
+
+      - name: gcloud components update 2
+        continue-on-error: true
+        run: |
+          gcloud components update
+
+      - name: kubectl version (2)
         continue-on-error: true
         run: |
           gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
