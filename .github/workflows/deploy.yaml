@@ -35,6 +35,7 @@ jobs:
           version: '270.0.0'
           service_account_email: ${{ secrets.GKE_EMAIL }}
           service_account_key: ${{ secrets.GKE_KEY }}
+          export_default_credentials: true
 
 #      - name: Configure Docker for GCR
 ##        uses: actions/gcloud/cli@master
@@ -75,7 +76,6 @@ jobs:
 #          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
       - name: Install kubectl and deploy services (1)
-        ##        uses: actions/gcloud/cli@master
         run: gcloud config set container/use_client_certificate True
 
       - name: read some folders and vars (1)
@@ -88,35 +88,20 @@ jobs:
         run: ls -la $HOME/.config/gcloud
 
       - name: Extract tag
-        run: echo "::set-env name=TAG::$(echo ${GITHUB_REF##*/})"
+        run: |
+          echo "::set-env name=TAG::$(echo ${GITHUB_REF##*/})"
+          echo env.TAG = ${{ env.TAG }}
 
-      - name: read github branch tag
-        run: echo env.TAG = ${{ env.TAG }}
-
-      - name: read some folders and vars (4b)
-        run: ls -la $HOME/work/
-
-      - name: read some folders and vars (4c)
-        run: ls -la $HOME/work/demo-spring-kotlin/
+      - name: read some folders and vars (4a)
+        run: |
+          ls -la $HOME/work/
+          ls -la $HOME/work/demo-spring-kotlin/
+          ls -la $HOME/work/demo-spring-kotlin/demo-spring-kotlin/
 
       - name: read some folders and vars (5)
-        run: echo b. GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
-
-      - name: Setup gcloud CLI again
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '270.0.0'
-          service_account_email: ${{ secrets.GKE_EMAIL }}
-          service_account_key: ${{ secrets.GKE_KEY }}
-          export_default_credentials: true
-
-      - name: read some folders and vars (6)
         run: echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
 
-      - name: read some folders and vars (7)
-        run: ls -la $HOME/work/demo-spring-kotlin/demo-spring-kotlin/
-
-      - name: read some folders and vars (8)
+      - name: read some folders and vars (6)
         run: cat $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: actions-hub (1)
