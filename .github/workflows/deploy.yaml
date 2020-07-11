@@ -77,16 +77,9 @@ jobs:
 #          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 #          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
-      - name: Install kubectl and deploy services (1)
-        run: gcloud config set container/use_client_certificate True
-
       - name: read some folders and vars (1)
         run: ls -la $HOME/
-
-      - name: read some folders and vars (2)
         run: ls -la $HOME/.config
-
-      - name: read some folders and vars (3)
         run: ls -la $HOME/.config/gcloud
 
       - name: Extract tag
