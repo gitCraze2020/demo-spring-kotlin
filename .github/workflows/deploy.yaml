@@ -8,6 +8,7 @@ env:
   GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: us-east1-c
+  GKE_REGION: us-east1
   GKE_CLUSTER: cw-cl-demo-spring-kotlin
   IMAGE: demo-spring-kotlin
   REGISTRY_HOSTNAME: gcr.io
@@ -145,10 +146,35 @@ jobs:
         run: |
           gcloud components install kubectl --quiet
 
-      - name: kubectl set context
+      - name: gcloud config
         continue-on-error: true
         run: |
+          gcloud config set project $GKE_PROJECT
+          gcloud config set compute/zone $GKE_ZONE
+          gcloud config set compute/region $GKE_REGION
+
+      - name: gcloud config kubectl get cred
+        continue-on-error: true
+        run: |
+          gcloud config set project $GKE_PROJECT
+          gcloud config set compute/zone $GKE_ZONE
+          gcloud config set compute/region $GKE_REGION
           gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
+
+      - name: gcloud config kubectl config view
+        continue-on-error: true
+        run: |
+          gcloud config set project $GKE_PROJECT
+          gcloud config set compute/zone $GKE_ZONE
+          gcloud config set compute/region $GKE_REGION
+          kubectl config view
+
+      - name: gcloud config kubectl set context
+        continue-on-error: true
+        run: |
+          gcloud config set project $GKE_PROJECT
+          gcloud config set compute/zone $GKE_ZONE
+          gcloud config set compute/region $GKE_REGION
           kubectl config set-context --current --namespace=${{ secrets.CLUSTER_NS }}
           kubectl config view
 
