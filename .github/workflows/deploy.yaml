@@ -88,10 +88,7 @@ jobs:
         run: ls -la $HOME/.config/gcloud
 
       - name: read some folders and vars (4)
-        run: ls -la $HOME/.config/gcloud/application_default_credentials.json
-
-      - name: read some folders and vars (5)
-        run: echo $GOOGLE_APPLICATION_CREDENTIALS
+        run: echo a. GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Setup gcloud CLI again
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -99,6 +96,9 @@ jobs:
           version: '270.0.0'
           service_account_email: ${{ secrets.GKE_EMAIL }}
           service_account_key: ${{ secrets.GKE_KEY }}
+
+      - name: read some folders and vars (5)
+        run: echo b. GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
