@@ -37,17 +37,17 @@ jobs:
           service_account_key: ${{ secrets.GKE_KEY }}
 
 
-      - name: Configure Docker for GCR
-#        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          args: "auth configure-docker --quiet"
+#      - name: Configure Docker for GCR
+##        uses: actions/gcloud/cli@master
+#        uses: actions-hub/gcloud@master
+#        with:
+#          args: "auth configure-docker --quiet"
 
-#      # Configure docker to use the gcloud command-line tool as a credential helper
-#      - run: |
-#          # Set up docker to authenticate
-#          # via gcloud command-line tool.
-#          gcloud auth configure-docker
+      - name: Configure docker to use the gcloud command-line tool as a credential helper
+        run: |
+          # Set up docker to authenticate
+          # via gcloud command-line tool.
+          gcloud auth configure-docker
 
       - name: Build image
         uses: actions/setup-java@v1
