@@ -148,20 +148,20 @@ jobs:
       - name: kubectl set context
         continue-on-error: true
         run: |
-          gcloud config set container/use_client_certificate True
+          gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
           kubectl config set-context --current --namespace=${{ secrets.CLUSTER_NS }}
           kubectl config view
 
       - name: kubectl ns
         continue-on-error: true
         run: |
-          gcloud config set container/use_client_certificate True
+          gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
           kubectl get namespaces
 
       - name: kubectl version
         continue-on-error: true
         run: |
-          gcloud config set container/use_client_certificate True
+          gcloud container clusters get-credentials $GKE_CLUSTER --project $GKE_PROJECT --zone $GKE_ZONE
           kubectl version
 
       - name: kubectl resources
