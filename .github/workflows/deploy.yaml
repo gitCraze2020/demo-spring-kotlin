@@ -78,7 +78,7 @@ jobs:
         uses: actions-hub/gcloud@master
         with:
 #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
-          args: 'components install kubectl --quiet && gcloud config set container/use_client_certificate True && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
+          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
 
       # Set up kustomize
