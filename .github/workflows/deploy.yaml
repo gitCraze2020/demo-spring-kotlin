@@ -55,17 +55,17 @@ jobs:
           java-version: '1.8'
       - run: ./mvnw compile jib:dockerBuild -Djib.to.image=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
-      - name: Push image to GCR
-#        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          entrypoint: sh
-          args: -c "docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+#      - name: Push image to GCR
+##        uses: actions/gcloud/cli@master
+#        uses: actions-hub/gcloud@master
+#        with:
+#          entrypoint: sh
+#          args: -c "docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
       # Push the Docker image to Google Container Registry
-#      - name: Publish
-#        run: |
-#          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+      - name: Publish
+        run: |
+          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
 #      - name: Prepare service manifest
 #        env:
