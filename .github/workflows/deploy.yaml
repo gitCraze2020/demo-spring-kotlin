@@ -28,8 +28,9 @@ jobs:
 #        env:
 #          GCLOUD_AUTH: ${{ secrets.GCP_SA_KEY }}
 
-      # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      #
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '270.0.0'
           service_account_email: ${{ secrets.GKE_EMAIL }}
