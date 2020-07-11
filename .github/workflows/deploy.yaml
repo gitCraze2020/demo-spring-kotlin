@@ -133,6 +133,14 @@ jobs:
         run: |
           gcloud components install kubectl --quiet
 
+      - name: kubectl api-versions
+        run: |
+          kubectl api-versions
+
+      - name: show local path yaml
+        run: |
+          cat .github/service.yaml
+
       - name: Install kubectl and deploy services (2)
         run: |
           gcloud components install kubectl --quiet
