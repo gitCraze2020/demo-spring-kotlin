@@ -63,7 +63,7 @@ jobs:
 #          args: -c "docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
       # Push the Docker image to Google Container Registry
-      - name: Publish
+      - name: Publish (service account must have storage.buckets.create permission, granted through Cloud Storage Admin role)
         run: |
           docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
 
