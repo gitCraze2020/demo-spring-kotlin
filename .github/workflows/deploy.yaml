@@ -88,9 +88,10 @@ jobs:
         run: ls -la $HOME/.config/gcloud
 
       - name: Extract tag
-        run: |
-          echo "::set-env name=TAG::$(echo ${GITHUB_REF##*/})"
-          echo env.TAG = ${{ env.TAG }}
+        run: echo "::set-env name=TAG::$(echo ${GITHUB_REF##*/})"
+
+      - name: Review tag
+        run: echo env.TAG = ${{ env.TAG }}
 
       - name: read some folders and vars (4a)
         run: |
@@ -104,40 +105,37 @@ jobs:
       - name: read some folders and vars (6)
         run: cat $GOOGLE_APPLICATION_CREDENTIALS
 
-      - name: actions-hub (1)
-        ##        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          args: 'echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS'
+      - name: Configure Docker to use Google Cloud Platform
+          run: "gcloud auth configure-docker --quiet"
 
-      - name: actions-hub (2)
-        ##        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          args: 'ls -la'
+#      - name: Push image to Google Cloud Container Registry
+#        run: docker push eu.gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
-#  gcloud auth application-default login
+      - name: Install beta commands and deploy on cloud run
+        run: |
+          gcloud components install beta --quiet
+          gcloud beta run deploy $DEPLOYMENT_NAME --quiet --image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }} --project $GKE_PROJECT --region $GKE_ZONE --platform managed
 
-      - name: Install kubectl and deploy services (2)
-        ##        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
-          args: 'components install kubectl --quiet'
+#      - name: Install kubectl and deploy services (2)
+#        ##        uses: actions/gcloud/cli@master
+#        uses: actions-hub/gcloud@master
+#        with:
+#          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
+#          args: 'components install kubectl --quiet'
+#
+#      - name: Install kubectl and deploy services (3)
+#        ##        uses: actions/gcloud/cli@master
+#        uses: actions-hub/gcloud@master
+#        with:
+#          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
+#          args: 'kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
-      - name: Install kubectl and deploy services (3)
-        ##        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
-          args: 'kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
-
-      - name: Install kubectl and deploy services (full)
-        ##        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
-          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
+#      - name: Install kubectl and deploy services (full)
+#        ##        uses: actions/gcloud/cli@master
+#        uses: actions-hub/gcloud@master
+#        with:
+#          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
+#          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
 
       # Set up kustomize
