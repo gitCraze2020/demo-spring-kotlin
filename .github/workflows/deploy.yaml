@@ -90,14 +90,14 @@ jobs:
       - name: Extract tag
         run: echo "::set-env name=TAG::$(echo ${GITHUB_REF##*/})"
 
-      - name: read some folders and vars (4)
+      - name: read github branch tag
         run: echo env.TAG = ${{ env.TAG }}
 
       - name: read some folders and vars (4b)
-        run: echo TAG = $TAG
+        run: ls -la $HOME/work/
 
       - name: read some folders and vars (4c)
-        run: echo env.TAG = env.TAG
+        run: ls -la $HOME/work/demo-spring-kotlin/
 
       - name: read some folders and vars (5)
         run: echo b. GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
@@ -114,7 +114,10 @@ jobs:
         run: echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: read some folders and vars (7)
-        run: ls -la $HOME/.config/gcloud
+        run: ls -la $HOME/work/demo-spring-kotlin/demo-spring-kotlin/
+
+      - name: read some folders and vars (8)
+        run: cat $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
