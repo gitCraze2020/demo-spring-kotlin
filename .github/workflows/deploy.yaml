@@ -82,10 +82,7 @@ jobs:
 
       - name: Install kubectl and deploy services (1)
         ##        uses: actions/gcloud/cli@master
-        uses: actions-hub/gcloud@master
-        with:
-          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
-          args: 'gcloud config set container/use_client_certificate True'
+        run: gcloud config set container/use_client_certificate True
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
