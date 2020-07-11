@@ -48,24 +48,18 @@ jobs:
           # Set up docker to authenticate
           # via gcloud command-line tool.
           gcloud auth configure-docker
-
-      - name: Build image
-        uses: actions/setup-java@v1
-        with:
-          java-version: '1.8'
-      - run: ./mvnw compile jib:dockerBuild -Djib.to.image=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
-
-#      - name: Push image to GCR
-##        uses: actions/gcloud/cli@master
-#        uses: actions-hub/gcloud@master
+#PUT BACK START
+#      - name: Build image
+#        uses: actions/setup-java@v1
 #        with:
-#          entrypoint: sh
-#          args: -c "docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
-
-      # Push the Docker image to Google Container Registry
-      - name: Publish (service account must have storage.buckets.create permission, granted through Cloud Storage Admin role)
-        run: |
-          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+#          java-version: '1.8'
+#      - run: ./mvnw compile jib:dockerBuild -Djib.to.image=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+#
+#      # Push the Docker image to Google Container Registry
+#      - name: Publish (service account must have storage.buckets.create permission, granted through Cloud Storage Admin role)
+#        run: |
+#          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }}
+#PUT BACK END
 
       - name: Prepare service manifest
         env:
@@ -81,8 +75,23 @@ jobs:
 #          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
       - name: Install kubectl and deploy services (1)
-          ##        uses: actions/gcloud/cli@master
+        ##        uses: actions/gcloud/cli@master
         run: gcloud config set container/use_client_certificate True
+
+      - name: read some folders and vars (1)
+        run: ls -la $HOME/
+
+      - name: read some folders and vars (2)
+        run: ls -la $HOME/.config
+
+      - name: read some folders and vars (3)
+        run: ls -la $HOME/.config/gcloud
+
+      - name: read some folders and vars (4)
+        run: ls -la $HOME/.config/gcloud/application_default_credentials.json
+
+      - name: read some folders and vars (5)
+        run: echo $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Setup gcloud CLI again
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
