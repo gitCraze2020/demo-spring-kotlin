@@ -129,21 +129,31 @@ jobs:
 #          gcloud components install beta --quiet
 #          gcloud beta run deploy $DEPLOYMENT_NAME --quiet --image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }} --project $GKE_PROJECT --region $GKE_ZONE --platform managed
 
-      - name: Install kubectl and deploy services (1)
-        run: |
-          gcloud components install kubectl --quiet
-
-      - name: kubectl version
-        run: |
-          kubectl version
-
       - name: show local path yaml
         run: |
           cat .github/service.yaml
 
-      - name: kubectl get apiservice
+      - name: Install kubectl and deploy services (1)
         run: |
+          gcloud components install kubectl --quiet
+
+      - name: kubectl config info
+        run: |
+          gcloud config set container/use_client_certificate True
+          kubectl config view
+          kubectl get namespaces
+
+      - name: kubectl version
+        run: |
+          gcloud config set container/use_client_certificate True
+          kubectl version
+
+      - name: kubectl resources
+        run: |
+          gcloud config set container/use_client_certificate True
           kubectl get apiservice
+          kubectl api-resources
+          kubectl api-versions
 
       - name: Install kubectl and deploy services (2)
         run: |
