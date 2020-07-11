@@ -104,6 +104,14 @@ jobs:
         run: |
           cat $HOME/work/demo-spring-kotlin/demo-spring-kotlin/.github/service.yaml
 
+      - name: read some folders and vars (4c)
+        run: |
+          ls -la .
+
+      - name: read some folders and vars (4d)
+        run: |
+          ls -la .github
+
       - name: read some folders and vars (5)
         run: echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
 
