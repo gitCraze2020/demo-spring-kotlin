@@ -133,13 +133,17 @@ jobs:
         run: |
           gcloud components install kubectl --quiet
 
-      - name: kubectl discovery
+      - name: kubectl version
         run: |
-          kubectl get apiservice
+          kubectl version
 
       - name: show local path yaml
         run: |
           cat .github/service.yaml
+
+      - name: kubectl get apiservice
+        run: |
+          kubectl get apiservice
 
       - name: Install kubectl and deploy services (2)
         run: |
