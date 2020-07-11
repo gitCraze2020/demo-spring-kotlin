@@ -77,18 +77,19 @@ jobs:
 #          #          args: 'components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project $secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 #          args: 'gcloud config set container/use_client_certificate True && components install kubectl --quiet && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}'
 
-      - name: read some folders and vars (1)
-        run: ls -la $HOME/
-        run: ls -la $HOME/.config
-        run: ls -la $HOME/.config/gcloud
-
       - name: Extract tag
         run: echo "::set-env name=TAG::$(echo ${GITHUB_REF##*/})"
 
       - name: Review tag
         run: echo env.TAG = ${{ env.TAG }}
 
-      - name: read some folders and vars (4a)
+      - name: read some folders and vars (1)
+        run: |
+          ls -la $HOME/
+          ls -la $HOME/.config
+          ls -la $HOME/.config/gcloud
+
+      - name: read some folders and vars (2)
         continue-on-error: true
         run: |
           ls -la $HOME/work/
@@ -96,19 +97,15 @@ jobs:
           ls -la $HOME/work/demo-spring-kotlin/demo-spring-kotlin/
           ls -la $HOME/work/demo-spring-kotlin/demo-spring-kotlin/.github
 
-      - name: read some folders and vars (4b)
+      - name: read some folders and vars (3)
         continue-on-error: true
         run: |
           cat $HOME/work/demo-spring-kotlin/demo-spring-kotlin/.github/service.yaml
 
-      - name: read some folders and vars (4c)
+      - name: read some folders and vars (4)
         continue-on-error: true
         run: |
           ls -la .
-
-      - name: read some folders and vars (4d)
-        continue-on-error: true
-        run: |
           ls -la .github
 
       - name: read some folders and vars (5)
