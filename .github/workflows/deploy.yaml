@@ -82,10 +82,10 @@ jobs:
 
       - name: Install kubectl and deploy services (1)
           ##        uses: actions/gcloud/cli@master
-          run: gcloud config set container/use_client_certificate True
+        run: gcloud config set container/use_client_certificate True
 
       - name: get-credentials
-          run: gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+        run: gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
