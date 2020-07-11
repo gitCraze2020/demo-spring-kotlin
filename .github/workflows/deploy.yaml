@@ -112,9 +112,10 @@ jobs:
 #        run: docker push eu.gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
       - name: Install beta commands and deploy on cloud run
+        # gcloud components install beta --quiet
+        #  gcloud beta run deploy $DEPLOYMENT_NAME --quiet --image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }} --project $GKE_PROJECT --region $GKE_ZONE --platform managed
         run: |
-          gcloud components install beta --quiet
-          gcloud beta run deploy $DEPLOYMENT_NAME --quiet --image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }} --project $GKE_PROJECT --region $GKE_ZONE --platform managed
+          gcloud run deploy $DEPLOYMENT_NAME --quiet --image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }} --project $GKE_PROJECT --region $GKE_ZONE --platform managed
 
 #      - name: Install kubectl and deploy services (2)
 #        ##        uses: actions/gcloud/cli@master
