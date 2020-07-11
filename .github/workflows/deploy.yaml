@@ -131,15 +131,7 @@ jobs:
         with:
           args: 'ls -la'
 
-      - name: actions (1)
-        uses: actions/gcloud/cli@master
-        with:
-          args: 'echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS'
-
-      - name: actions (2)
-        uses: actions/gcloud/cli@master
-        with:
-          args: 'ls -la'
+#  gcloud auth application-default login
 
       - name: Install kubectl and deploy services (2)
         ##        uses: actions/gcloud/cli@master
