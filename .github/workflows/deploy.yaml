@@ -94,6 +94,7 @@ jobs:
         run: echo env.TAG = ${{ env.TAG }}
 
       - name: read some folders and vars (4a)
+        continue-on-error: true
         run: |
           ls -la $HOME/work/
           ls -la $HOME/work/demo-spring-kotlin/
@@ -101,21 +102,26 @@ jobs:
           ls -la $HOME/work/demo-spring-kotlin/demo-spring-kotlin/.github
 
       - name: read some folders and vars (4b)
+        continue-on-error: true
         run: |
           cat $HOME/work/demo-spring-kotlin/demo-spring-kotlin/.github/service.yaml
 
       - name: read some folders and vars (4c)
+        continue-on-error: true
         run: |
           ls -la .
 
       - name: read some folders and vars (4d)
+        continue-on-error: true
         run: |
           ls -la .github
 
       - name: read some folders and vars (5)
+        continue-on-error: true
         run: echo GOOGLE_APPLICATION_CREDENTIALS = $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: read some folders and vars (6)
+        continue-on-error: true
         run: cat $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Configure Docker to use Google Cloud Platform
@@ -130,25 +136,35 @@ jobs:
 #          gcloud beta run deploy $DEPLOYMENT_NAME --quiet --image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${{ github.sha }} --project $GKE_PROJECT --region $GKE_ZONE --platform managed
 
       - name: show local path yaml
+        continue-on-error: true
         run: |
           cat .github/service.yaml
 
       - name: Install kubectl and deploy services (1)
+        continue-on-error: true
         run: |
           gcloud components install kubectl --quiet
 
       - name: kubectl config info
+        continue-on-error: true
         run: |
           gcloud config set container/use_client_certificate True
           kubectl config view
+
+      - name: kubectl ns
+        continue-on-error: true
+        run: |
+          gcloud config set container/use_client_certificate True
           kubectl get namespaces
 
       - name: kubectl version
+        continue-on-error: true
         run: |
           gcloud config set container/use_client_certificate True
           kubectl version
 
       - name: kubectl resources
+        continue-on-error: true
         run: |
           gcloud config set container/use_client_certificate True
           kubectl get apiservice
